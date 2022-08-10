@@ -1,5 +1,5 @@
 import { Scenes, session, Telegraf, Markup } from 'telegraf';
-import { rateLimit } from 'telegraf-ratelimit'
+import rateLimit from 'telegraf-ratelimit'
 import { gasto } from './scenes/gasto'
 import { aporte } from './scenes/aporte'
  
