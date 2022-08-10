@@ -28,5 +28,9 @@
     "googleapis": "^105.0.0",
     "telegraf": "^4.8.6",
     "telegraf-ratelimit": "^2.0.0"
+  },
+  "engines": {
+    "node": "17.0",
+    "npm": "8.1"
   }
 }
