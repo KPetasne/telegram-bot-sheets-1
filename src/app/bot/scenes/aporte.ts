@@ -8,37 +8,66 @@ const aporte1 = async (ctx) => {
   await ctx.reply(
     'Quien aporta?',
     Markup.inlineKeyboard([
-      Markup.button.callback('Mono', 'Mono'),
-      Markup.button.callback('Foca', 'Foca')
+      [Markup.button.callback('Nuri', 'Nuri'),
+      Markup.button.callback('Pollo', 'Pollo'),
+      Markup.button.callback('CK', 'CK'),
+      Markup.button.callback('Kras', 'Kras')],
+      [Markup.button.callback('Kurti', 'Kurti'),
+      Markup.button.callback('Ancha', 'Ancha'),
+      Markup.button.callback('Rexo', 'Rexo'),
+      Markup.button.callback('Sas', 'Sas')],
+      [Markup.button.callback('Tincho', 'Tincho'),
+      Markup.button.callback('Zurdo', 'Zurdo'),
+      Markup.button.callback('Danou', 'Danou'),
+      Markup.button.callback('Sarue', 'Sarue')],
+      [Markup.button.callback('Naf', 'Naf'),
+      Markup.button.callback('Braju', 'Braju'),
+      Markup.button.callback('Lucas', 'Lucas')]
     ])
   )
   ctx.wizard.next()
 }
 
 const aporte2 = async (ctx) => {
-  console.log(ctx.update.callback_query.data);
-  ctx.wizard.state.aporte.persona = ctx.update.callback_query.data;
-  await ctx.reply('Cuanto aporta?')
-  ctx.wizard.next()
+    if(ctx.update?.callback_query?.data){
+        ctx.wizard.state.aporte.persona = ctx.update.callback_query.data;
+        await ctx.reply('Cuanto aporta?')
+        ctx.wizard.next()
+    } else {
+        ctx.scene.leave("Error")
+    }
 }
 
 const aporte3 = async (ctx) => {
-  ctx.wizard.state.aporte.monto = ctx.message.text;
-  console.log(ctx.wizard.state);
-  writeAporte(ctx.wizard.state);
-  await ctx.reply('Aporte Cargado')
-  return await ctx.scene.leave()
+    if (!isNaN(ctx.message.text)) {
+        ctx.wizard.state.aporte.monto = ctx.message.text as number;
+        const status = writeAporte(ctx.wizard.state);
+        if (status) {
+            await ctx.reply('Aporte Cargado')
+            await ctx.reply(ctx.wizard.state)
+        } else {
+            await ctx.reply('Error en la carga')
+        }
+    } else {
+        await ctx.reply('El monto ingresado no es un numero, se cancela la carga del aporte')
+    }
+
+    return await ctx.scene.leave()
 }
 
 const writeAporte = async (state) => {
     let ap = [];
-    ap.push("Fecha");
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    ap.push(`${day}/${month}/${year}`);
     ap.push(state.aporte.persona);
     ap.push(state.aporte.monto);
     ap.push("NA");
     ap.push("NA");
     ap.push("Pozo");
-    write(ap);
+    return await write(ap);
 }
 
 const aporte = new Scenes.WizardScene(

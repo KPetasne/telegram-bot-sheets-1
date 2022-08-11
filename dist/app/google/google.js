@@ -4,9 +4,10 @@ exports.write = void 0;
 const googleapis_1 = require("googleapis");
 require("dotenv").config();
 const spreadsheetId = process.env.SHEET_ID;
+const keys = JSON.parse(process.env['CREDS']);
 const write = async (val) => {
     const auth = new googleapis_1.google.auth.GoogleAuth({
-        keyFile: "keys.json",
+        credentials: keys,
         //url to spreadsheets API
         scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
@@ -22,13 +23,16 @@ const write = async (val) => {
         },
         auth: auth,
     };
+    let status = false;
     try {
         const response = (await sheets.spreadsheets.values.append(request)).data;
-        console.log(JSON.stringify(response, null, 2));
+        status = true;
     }
     catch (err) {
         console.error(err);
+        status = false;
     }
+    return status;
 };
 exports.write = write;
 //# sourceMappingURL=google.js.map
