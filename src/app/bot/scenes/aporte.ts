@@ -40,7 +40,7 @@ const aporte2 = async (ctx) => {
 
 const aporte3 = async (ctx) => {
     if (!isNaN(ctx.message.text)) {
-        ctx.wizard.state.aporte.monto = ctx.message.text as number;
+        ctx.wizard.state.aporte.monto = ctx.message.text;
         const status = writeAporte(ctx.wizard.state);
         if (status) {
             await ctx.reply('Aporte Cargado')
@@ -63,7 +63,7 @@ const writeAporte = async (state) => {
     const year = date.getFullYear();
     ap.push(`${day}/${month}/${year}`);
     ap.push(state.aporte.persona);
-    ap.push(state.aporte.monto);
+    ap.push(state.aporte.monto.replace(".",","));
     ap.push("NA");
     ap.push("NA");
     ap.push("Pozo");
