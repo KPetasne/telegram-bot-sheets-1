@@ -14,6 +14,7 @@ const limitConfig = {
     limit: 3,
     onLimitExceeded: (ctx, next) => ctx.reply('Rate limit exceeded')
 };
+const USER_IDS = [525654154, 1007134152];
 const bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
 exports.bot = bot;
 const stage = new telegraf_1.Scenes.Stage([aporte_1.aporte, gasto_1.gasto]);
@@ -25,10 +26,20 @@ bot.use((0, telegraf_1.session)());
 bot.use((0, telegraf_ratelimit_1.default)(limitConfig));
 bot.use(stage.middleware());
 bot.command('aporte', async (ctx) => {
-    await ctx.scene.enter('aporte');
+    if (USER_IDS.includes(ctx.from.id)) {
+        await ctx.scene.enter('aporte');
+    }
+    else {
+        await ctx.reply("Toca de aca gato");
+    }
 });
 bot.command('gasto', async (ctx) => {
-    await ctx.scene.enter('gasto');
+    if (USER_IDS.includes(ctx.from.id)) {
+        await ctx.scene.enter('gasto');
+    }
+    else {
+        await ctx.reply("Toca de aca gato");
+    }
 });
 bot.catch((err) => {
     console.log('Ooops', err);

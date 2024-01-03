@@ -15,7 +15,7 @@ const write = async (val) => {
     const sheets = googleapis_1.google.sheets({ version: "v4", auth: authClientObject });
     const request = {
         spreadsheetId: spreadsheetId,
-        range: 'Sheet1!A:F',
+        range: 'Pozo!A:F',
         valueInputOption: 'USER_ENTERED',
         insertDataOption: 'INSERT_ROWS',
         resource: {

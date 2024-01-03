@@ -8,7 +8,7 @@
     "sourceMap": true,
     "lib": ["es2021"],
     "skipLibCheck": true,
-    "rootDir": "functions",
+    "rootDir": "netlify/functions",
     "outDir": "dist"
   }
 }

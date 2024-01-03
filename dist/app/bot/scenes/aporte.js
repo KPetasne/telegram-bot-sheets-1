@@ -35,12 +35,12 @@ const aporte2 = async (ctx) => {
     }
 };
 const aporte3 = async (ctx) => {
-    if (ctx.message.text != NaN) {
+    if (!isNaN(ctx.message.text)) {
         ctx.wizard.state.aporte.monto = ctx.message.text;
-        console.log(ctx.wizard.state);
         const status = writeAporte(ctx.wizard.state);
         if (status) {
             await ctx.reply('Aporte Cargado');
+            await ctx.reply(ctx.wizard.state);
         }
         else {
             await ctx.reply('Error en la carga');
@@ -55,11 +55,11 @@ const writeAporte = async (state) => {
     let ap = [];
     const date = new Date();
     const day = date.getDate();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     ap.push(`${day}/${month}/${year}`);
     ap.push(state.aporte.persona);
-    ap.push(state.aporte.monto);
+    ap.push(state.aporte.monto.replace(".", ","));
     ap.push("NA");
     ap.push("NA");
     ap.push("Pozo");
