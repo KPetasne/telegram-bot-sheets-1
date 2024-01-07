@@ -15,7 +15,7 @@ const balance1 = async (ctx) => {
       'El balance es:'
     )
     for(let i = 0; i < balance.length; i++) {
-      let text = balance.descripcion + ': ' + balance.value;
+      let text = balance[i].descripcion + ': ' + balance[i].value;
       await ctx.reply(text);
     }
   } else {
@@ -33,8 +33,6 @@ const obtenerBalance = async () => {
   if (datosBalance) {
     const valueRanges = datosBalance.valueRanges;
     balance = valueRanges.map((vr) => {
-      console.log(RANGES[vr.range]);
-      console.log(RANGES['Pozo!G4']);
       let descripcion = RANGES[vr.range];
       let value = vr.values[0][0];
       return {
