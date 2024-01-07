@@ -33,6 +33,9 @@ const obtenerBalance = async () => {
   if (datosBalance) {
     const valueRanges = datosBalance.valueRanges;
     balance = valueRanges.map((vr) => {
+      console.log(vr);
+      console.log(vr.range);
+      console.log(vr.values);
       let descripcion = RANGES[vr.range];
       let value = vr.values[0];
       return {
