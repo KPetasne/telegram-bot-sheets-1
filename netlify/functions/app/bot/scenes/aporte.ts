@@ -45,11 +45,10 @@ const aporte1 = async (ctx) => {
       [Markup.button.callback('Neny', 'Neny'),
       Markup.button.callback('Sas', 'Sas'),
       Markup.button.callback('Fer', 'Fer'),
-      Markup.button.callback('Gon', 'Gon'),
-      Markup.button.callback('Braju', 'Braju'),
+      Markup.button.callback('Gon', 'Gon')],
+      [Markup.button.callback('Braju', 'Braju'),
       Markup.button.callback('Coco', 'Coco'),
-      Markup.button.callback('Todos', 'Todos'),
-    ]
+      Markup.button.callback('Todos', 'Todos')]
     ])
   )
   ctx.wizard.next()
