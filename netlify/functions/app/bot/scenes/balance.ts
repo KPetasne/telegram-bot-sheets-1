@@ -14,7 +14,7 @@ const balance1 = async (ctx) => {
     await ctx.reply(
       'El balance es:'
     )
-    for(let i = 0; i < balance; i++) {
+    for(let i = 0; i < balance.length; i++) {
       let text = balance.descripcion + ': ' + balance.value;
       await ctx.reply(text);
     }
