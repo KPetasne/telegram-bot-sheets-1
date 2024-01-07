@@ -44,8 +44,6 @@ const writeGasto = async (state) => {
   ap.push(`${day}/${month}/${year}`);
   ap.push("Pozo");
   ap.push(state.gasto.monto.toString().replace(".",","));
-  ap.push("NA");
-  ap.push("NA");
   ap.push(state.gasto.concepto);
   return await write(ap);
 }

@@ -10,7 +10,7 @@ const limitConfig = {
   onLimitExceeded: (ctx, next) => ctx.reply('Rate limit exceeded')
 }
 
-const USER_IDS: number[] = [525654154, 1007134152];
+const USER_IDS: number[] = [525654154, 6594684589, 1646396573];
 
 const bot: Telegraf<Scenes.WizardContext> = new Telegraf(process.env.BOT_TOKEN as string);
 const stage = new Scenes.Stage<Scenes.WizardContext>([aporte, gasto]);

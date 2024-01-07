@@ -69,8 +69,9 @@ const aporte3 = async (ctx) => {
     if (!isNaN(ctx.message.text)) {
         ctx.wizard.state.aporte.monto = ctx.message.text;
         if ('Todos' == ctx.wizard.state.aporte.persona){
-            for (let i = 0; i > personas.length; i++){
-                let persona = personas[i]
+            for (let i = 0; i < personas.length; i++){
+                let persona = personas[i];
+                console.log(persona);
                 let status = writeAporte(ctx.wizard.state, persona);
                 if (status) {
                     await ctx.reply('Aporte Cargado de: ' + persona)
