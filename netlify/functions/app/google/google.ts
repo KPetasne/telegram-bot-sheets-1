@@ -52,7 +52,7 @@ const read = async () => {
 
     const request = {
         spreadsheetId: spreadsheetId,
-        range: ['Pozo!G1', 'Pozo!G4', 'Pozo!G5'],
+        ranges: ['Pozo!G1', 'Pozo!G4', 'Pozo!G5'],
         auth: auth,
     };
 
