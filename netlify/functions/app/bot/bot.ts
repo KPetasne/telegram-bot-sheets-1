@@ -2,6 +2,7 @@ import { Scenes, session, Telegraf, Markup } from 'telegraf';
 import rateLimit from 'telegraf-ratelimit'
 import { gasto } from './scenes/gasto'
 import { aporte } from './scenes/aporte'
+import { balance } from './scenes/balance';
  
 // Set limit to 3 message per 3 seconds
 const limitConfig = {
@@ -13,7 +14,7 @@ const limitConfig = {
 const USER_IDS: number[] = [525654154, 6594684589, 1646396573];
 
 const bot: Telegraf<Scenes.WizardContext> = new Telegraf(process.env.BOT_TOKEN as string);
-const stage = new Scenes.Stage<Scenes.WizardContext>([aporte, gasto]);
+const stage = new Scenes.Stage<Scenes.WizardContext>([aporte, gasto, balance]);
 stage.command('cancelar', async (ctx) => {
     await ctx.scene.leave();
     await ctx.reply("accion cancelada")
@@ -33,6 +34,13 @@ bot.command('aporte', async (ctx) => {
 bot.command('gasto', async (ctx) => {
     if(USER_IDS.includes(ctx.from.id)){
         await ctx.scene.enter('gasto');
+    } else {
+        await ctx.reply("Toca de aca gato");
+    }
+})
+bot.command('balance', async (ctx) => {
+    if(USER_IDS.includes(ctx.from.id)){
+        await ctx.scene.enter('balance');
     } else {
         await ctx.reply("Toca de aca gato");
     }

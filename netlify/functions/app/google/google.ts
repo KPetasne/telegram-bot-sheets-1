@@ -39,6 +39,36 @@ const write = async (val) => {
     return status;
 }
 
+const read = async () => {
+    const auth = new google.auth.GoogleAuth({
+        credentials: keys, //the key file
+        //url to spreadsheets API
+        scopes: "https://www.googleapis.com/auth/spreadsheets", 
+    });
+    
+    const authClientObject = await auth.getClient();
+    
+    const sheets = google.sheets({ version: "v4", auth: authClientObject });
+
+    const request = {
+        spreadsheetId: spreadsheetId,
+        range: ['Pozo!G1', 'Pozo!G4', 'Pozo!G5'],
+        auth: auth,
+    };
+
+    let response;
+
+    try {
+        response = (await sheets.spreadsheets.values.batchGet(request)).data;
+    } catch (err) {
+        console.error(err);
+    }
+
+    return response;
+
+}
+
 export {
-    write
+    write,
+    read
 }
