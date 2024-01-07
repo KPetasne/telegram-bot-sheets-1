@@ -17,7 +17,7 @@ const write = async (val) => {
 
     const request = {
         spreadsheetId: spreadsheetId,
-        range: 'Pozo!A:F',
+        range: 'Pozo!A:D',
         valueInputOption: 'USER_ENTERED',
         insertDataOption: 'INSERT_ROWS',
         resource: {

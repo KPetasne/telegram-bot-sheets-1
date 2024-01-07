@@ -1,6 +1,28 @@
 import { Composer, Markup, Scenes, Telegraf } from 'telegraf'
 import {write} from '../../google/google'
 
+const personas = [
+'CK',
+'Foca',
+'Zurdo',
+'Nicolen',
+'Chaia',
+'Krasny',
+'Jefe',
+'Nicobur',
+'Rexo',
+'Kurti',
+'Colo',
+'Naf',
+'Ancha',
+'Neny',
+'Sas',
+'Fer',
+'Gon',
+'Coco',
+'Braju'
+]
+
 const aporte1 = async (ctx) => {
 
   ctx.wizard.state.aporte = {}
@@ -8,21 +30,26 @@ const aporte1 = async (ctx) => {
   await ctx.reply(
     'Quien aporta?',
     Markup.inlineKeyboard([
-      [Markup.button.callback('Nuri', 'Nuri'),
-      Markup.button.callback('Pollo', 'Pollo'),
-      Markup.button.callback('CK', 'CK'),
-      Markup.button.callback('Kras', 'Kras')],
-      [Markup.button.callback('Kurti', 'Kurti'),
-      Markup.button.callback('Ancha', 'Ancha'),
-      Markup.button.callback('Rexo', 'Rexo'),
-      Markup.button.callback('Sas', 'Sas')],
-      [Markup.button.callback('Tincho', 'Tincho'),
+      [Markup.button.callback('CK', 'CK'),
+      Markup.button.callback('Foca', 'Foca'),
       Markup.button.callback('Zurdo', 'Zurdo'),
-      Markup.button.callback('Danou', 'Danou'),
-      Markup.button.callback('Sarue', 'Sarue')],
-      [Markup.button.callback('Naf', 'Naf'),
+      Markup.button.callback('Nicolen', 'Nicolen')],
+      [Markup.button.callback('Chaia', 'Chaia'),
+      Markup.button.callback('Krasny', 'Krasny'),
+      Markup.button.callback('Jefe', 'Jefe'),
+      Markup.button.callback('Nicobur', 'Nicobur')],
+      [Markup.button.callback('Rexo', 'Rexo'),
+      Markup.button.callback('Kurti', 'Kurti'),
+      Markup.button.callback('Colo', 'Colo'),
+      Markup.button.callback('Naf', 'Naf')],
+      [Markup.button.callback('Neny', 'Neny'),
+      Markup.button.callback('Sas', 'Sas'),
+      Markup.button.callback('Fer', 'Fer'),
+      Markup.button.callback('Gon', 'Gon'),
       Markup.button.callback('Braju', 'Braju'),
-      Markup.button.callback('Lucas', 'Lucas')]
+      Markup.button.callback('Coco', 'Coco'),
+      Markup.button.callback('Todos', 'Todos'),
+    ]
     ])
   )
   ctx.wizard.next()
@@ -41,12 +68,26 @@ const aporte2 = async (ctx) => {
 const aporte3 = async (ctx) => {
     if (!isNaN(ctx.message.text)) {
         ctx.wizard.state.aporte.monto = ctx.message.text;
-        const status = writeAporte(ctx.wizard.state);
-        if (status) {
-            await ctx.reply('Aporte Cargado')
-            await ctx.reply(ctx.wizard.state)
+        if ('Todos' == ctx.wizard.state.aporte.persona){
+            for (let i = 0; i > personas.length; i++){
+                let persona = personas[i]
+                let status = writeAporte(ctx.wizard.state, persona);
+                if (status) {
+                    await ctx.reply('Aporte Cargado de: ' + persona)
+                    await ctx.reply(ctx.wizard.state)
+                } else {
+                    await ctx.reply('Error en la carga de: ' + persona)
+                }
+            }
+
         } else {
-            await ctx.reply('Error en la carga')
+            const status = writeAporte(ctx.wizard.state, null);
+            if (status) {
+                await ctx.reply('Aporte Cargado')
+                await ctx.reply(ctx.wizard.state)
+            } else {
+                await ctx.reply('Error en la carga')
+            }
         }
     } else {
         await ctx.reply('El monto ingresado no es un numero, se cancela la carga del aporte')
@@ -55,17 +96,15 @@ const aporte3 = async (ctx) => {
     return await ctx.scene.leave()
 }
 
-const writeAporte = async (state) => {
+const writeAporte = async (state, persona) => {
     let ap = [];
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     ap.push(`${day}/${month}/${year}`);
-    ap.push(state.aporte.persona);
+    ap.push(persona || state.aporte.persona);
     ap.push(state.aporte.monto.replace(".",","));
-    ap.push("NA");
-    ap.push("NA");
     ap.push("Pozo");
     return await write(ap);
 }
