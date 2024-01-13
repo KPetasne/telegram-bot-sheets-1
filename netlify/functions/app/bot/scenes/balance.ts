@@ -2,9 +2,9 @@ import { Composer, Markup, Scenes, Telegraf } from 'telegraf'
 import {read} from '../../google/google'
 
 const RANGES = {
-  'Pozo!G1': 'Pozo Actual',
-  'Pozo!G4': 'Total Gastado',
-  'Pozo!G5': 'Total Acumulado'
+  'Resumen Pozo!B1': 'Pozo Actual',
+  'Resumen Pozo!B4': 'Total Gastado',
+  'Resumen Pozo!B5': 'Total Acumulado'
 }
 
 const balance1 = async (ctx) => {
